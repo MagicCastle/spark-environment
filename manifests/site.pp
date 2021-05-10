@@ -33,7 +33,7 @@ END
   $master_ip = lookup('terraform.tag_ip.master.0')
   $cores = $processorcount
   $memory = round($memoryfree_mb / 100) * 100
-  file { '/opt/spark-${version}-bin-hadoop3.2/conf/spark-env.sh':
+  file { "/opt/spark-${version}-bin-hadoop3.2/conf/spark-env.sh":
     content => @("END")
 #!/usr/bin/env bash
 SPARK_MASTER_HOST=${master_ip}
