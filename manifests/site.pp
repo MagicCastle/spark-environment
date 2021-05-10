@@ -78,6 +78,8 @@ END
 
 class worker {
   $version = '3.1.1'
+  $master_ip = lookup('terraform.tag_ip.master.0')
+
   file { '/etc/systemd/system/spark-worker.service':
     content => @("END")
 [Unit]
@@ -89,7 +91,7 @@ After=network-online.target
 [Service]
 User=root
 Type=forking
-ExecStart=/opt/spark-${version}-bin-hadoop3.2/sbin/start-worker.sh
+ExecStart=/opt/spark-${version}-bin-hadoop3.2/sbin/start-worker.sh spark://${master_ip}:7077
 ExecStop=/opt/spark-${version}-bin-hadoop3.2/sbin/stop-worker.sh
 TimeoutSec=30
 Restart=on-failure
