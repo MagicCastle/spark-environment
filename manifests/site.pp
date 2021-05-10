@@ -2,6 +2,7 @@ class base {
   include epel
   include psick
   package { 'java': }
+  package { 'python3': }
 
   $instances = lookup('terraform.instances')
   $host_template = @(END)
