@@ -3,9 +3,6 @@ class base {
   include psick
   package { 'java': }
 
-  $instances = lookup('terraform.instances')
-  $tags = lookup("terraform.instances.${::hostname}.tags")
-
   $host_template = @(END)
 127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
 <% @instances.each do |key, values| -%>
@@ -113,5 +110,12 @@ END
 
 node default {
   include base
+  $instances = lookup('terraform.instances')
+  $tags = lookup("terraform.instances.${::hostname}.tags")
+  if 'master' in $tags {
+    include master
+  } elsif 'worker' in $tags {
+    include worker
+  }
 }
 
